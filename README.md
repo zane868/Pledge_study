@@ -16,3 +16,6 @@ forge test -vv
 [合约实施记录](docs/contract-baseline.md)。
 
 测试网部署及权限配置见 [Sepolia 部署说明](docs/sepolia-deployment.md)。
+
+Go 后端已迁入 [pledge-backend](pledge-backend/README.md)，迁移范围及 PRD 差异见
+[后端功能对照](docs/backend-migration.md)。

@@ -15,3 +15,8 @@
 .env.*
 !.env.example
 .DS_Store
+pledge-backend/bin/
+pledge-backend/**/logs/
+pledge-backend/**/*.log
+!pledge-backend/contract/abi/
+!pledge-backend/contract/abi/**

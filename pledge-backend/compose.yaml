@@ -1,0 +1,50 @@
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: pledge
+      MYSQL_USER: pledge
+      MYSQL_PASSWORD: ${PLEDGE_MYSQL_PASSWORD:?set database password}
+      MYSQL_ROOT_PASSWORD: ${PLEDGE_MYSQL_ROOT_PASSWORD:?set root password}
+    volumes: ["mysql-data:/var/lib/mysql"]
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  redis:
+    image: redis:7.4-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  api:
+    build: .
+    env_file: .env
+    environment:
+      PLEDGE_API_HOST: 0.0.0.0
+      PLEDGE_MYSQL_HOST: mysql
+      PLEDGE_REDIS_HOST: redis
+    ports: ["127.0.0.1:8080:8080"]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O- http://127.0.0.1:8080/healthz >/dev/null"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    depends_on:
+      mysql: {condition: service_healthy}
+      redis: {condition: service_healthy}
+  sync:
+    build: .
+    command: ["pledge-sync"]
+    env_file: .env
+    environment:
+      PLEDGE_MYSQL_HOST: mysql
+      PLEDGE_REDIS_HOST: redis
+    depends_on:
+      api: {condition: service_healthy}
+      mysql: {condition: service_healthy}
+      redis: {condition: service_healthy}
+volumes:
+  mysql-data:
