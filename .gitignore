@@ -1,0 +1,17 @@
+**/node_modules/
+**/artifacts/
+**/cache/
+**/cache_forge/
+**/out/
+**/broadcast/
+**/.solc/
+**/.svm/
+**/coverage/
+**/coverage.json
+**/__pycache__/
+**/deployments/
+**/abi/
+.env
+.env.*
+!.env.example
+.DS_Store

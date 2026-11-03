@@ -1,0 +1,27 @@
+[profile.default]
+src = "contracts"
+test = "test"
+script = "script"
+out = "out"
+cache_path = "cache_forge"
+libs = ["lib"]
+solc_version = "0.8.24"
+evm_version = "paris"
+via_ir = true
+optimizer = true
+optimizer_runs = 1
+fs_permissions = [
+  { access = "read", path = "./out" },
+  { access = "read-write", path = "./deployments" },
+]
+remappings = [
+  "forge-std/=lib/forge-std/src/",
+  "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+  "@chainlink/contracts/=lib/chainlink-contracts/",
+]
+
+[fmt]
+line_length = 110
+
+[profile.sepolia]
+hardfork = "amsterdam"

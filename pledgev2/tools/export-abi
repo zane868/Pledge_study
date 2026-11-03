@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+import json
+from pathlib import Path
+
+root = Path(__file__).resolve().parent.parent
+output = root / "abi"
+output.mkdir(exist_ok=True)
+contracts = {
+    "PledgePool": "out/PledgePool.sol/PledgePool.json",
+    "DebtToken": "out/DebtToken.sol/DebtToken.json",
+    "BscPledgeOracle": "out/BscPledgeOracle.sol/BscPledgeOracle.json",
+    "multiSignature": "out/multiSignature.sol/multiSignature.json",
+}
+for name, artifact in contracts.items():
+    data = json.loads((root / artifact).read_text())
+    (output / f"{name}.json").write_text(json.dumps(data["abi"], indent=2) + "\n")
+print(f"Exported {len(contracts)} current Foundry ABIs to {output}")
