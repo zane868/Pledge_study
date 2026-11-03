@@ -3,6 +3,9 @@
 pragma solidity 0.8.24;
 
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
+import {SafeERC20 as OZSafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {IERC20 as OZERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "../library/SafeTransfer.sol";
 import "../interface/IDebtToken.sol";
 import "../interface/IBscPledgeOracle.sol";
@@ -19,7 +22,9 @@ contract PledgePool is ReentrancyGuard, SafeTransfer, multiSignatureClient{
     uint256 constant internal calDecimal = 1e18;
     // Based on the decimal of the commission and interest
     uint256 constant internal baseDecimal = 1e8;
-    uint256 public minAmount = 100e18;
+    uint256 public minAmount = 100e6;
+    mapping(uint256 => uint256) public lendScale;
+    address public lendingAsset;
     // one years
     uint256 constant baseYear = 365 days;
 
@@ -201,6 +206,15 @@ contract PledgePool is ReentrancyGuard, SafeTransfer, multiSignatureClient{
         // 需要_spToken不是零地址
         require(_spToken != address(0), "createPool:is zero address");
 
+        require(_borrowToken == address(0), "ETH collateral required");
+        require(_lendToken != address(0), "ERC20 lending asset required");
+        if (lendingAsset == address(0)) lendingAsset = _lendToken;
+        require(_lendToken == lendingAsset, "One lending asset per deployment");
+        uint8 assetDecimals = IERC20(_lendToken).decimals();
+        require(assetDecimals == 6 || assetDecimals == 18, "Unsupported lending decimals");
+        require(IERC20(_spToken).decimals() == 18 && IERC20(_jpToken).decimals() == 18, "Voucher decimals must be 18");
+        require(_martgageRate > 0, "Zero collateral ratio");
+        lendScale[poolBaseInfo.length] = 10 ** (18 - assetDecimals);
         // 推入基础池信息
         poolBaseInfo.push(PoolBaseInfo({
             settleTime: _settleTime,
@@ -301,11 +315,11 @@ contract PledgePool is ReentrancyGuard, SafeTransfer, multiSignatureClient{
         require(lendInfo.stakeAmount > 0, unicode"claimLend: 不能领取 sp_token"); // 需要用户的质押金额大于0
         require(!lendInfo.hasNoClaim,unicode"claimLend: 不能再次领取"); // 用户不能再次领取
         // 用户份额 = 当前质押金额 / 总金额
-        uint256 userShare = lendInfo.stakeAmount.mul(calDecimal).div(pool.lendSupply); 
+ 
         // totalSpAmount = settleAmountLend
-        uint256 totalSpAmount = data.settleAmountLend; // 总的Sp金额等于借款结算金额
+        uint256 totalSpAmount = data.settleAmountLend * lendScale[_pid]; // 总的Sp金额等于借款结算金额
         // 用户 sp 金额 = totalSpAmount * 用户份额
-        uint256 spAmount = totalSpAmount.mul(userShare).div(calDecimal); 
+        uint256 spAmount = Math.mulDiv(totalSpAmount, lendInfo.stakeAmount, pool.lendSupply); 
         // 铸造 sp token
         pool.spCoin.mint(msg.sender, spAmount); 
         // 更新领取标志
@@ -326,14 +340,15 @@ contract PledgePool is ReentrancyGuard, SafeTransfer, multiSignatureClient{
         // 销毁 sp_token
         pool.spCoin.burn(msg.sender,_spAmount);
         // 计算销毁份额
-        uint256 totalSpAmount = data.settleAmountLend;
+        uint256 totalSpAmount = data.settleAmountLend * lendScale[_pid];
         // sp份额 = _spAmount/totalSpAmount
-        uint256 spShare = _spAmount.mul(calDecimal).div(totalSpAmount);
+
         // 完成
         if (pool.state == PoolState.FINISH){
             require(block.timestamp > pool.endTime, unicode"withdrawLend: 少于结束时间");
             // 赎回金额 = finishAmountLend * sp份额
-            uint256 redeemAmount = data.finishAmountLend.mul(spShare).div(calDecimal);
+            uint256 redeemAmount = Math.mulDiv(data.finishAmountLend, _spAmount, totalSpAmount);
+            require(redeemAmount > 0, "Zero USDT redemption");
             // 退款动作
              _redeem(payable(msg.sender),pool.lendToken,redeemAmount);
             emit WithdrawLend(msg.sender,pool.lendToken,redeemAmount,_spAmount);
@@ -342,7 +357,8 @@ contract PledgePool is ReentrancyGuard, SafeTransfer, multiSignatureClient{
         if (pool.state == PoolState.LIQUIDATION) {
             require(block.timestamp > pool.settleTime, unicode"withdrawLend: 少于匹配时间");
             // 赎回金额
-            uint256 redeemAmount = data.liquidationAmounLend.mul(spShare).div(calDecimal);
+            uint256 redeemAmount = Math.mulDiv(data.liquidationAmounLend, _spAmount, totalSpAmount);
+            require(redeemAmount > 0, "Zero USDT redemption");
             // 退款动作
              _redeem(payable(msg.sender),pool.lendToken,redeemAmount);
             emit WithdrawLend(msg.sender,pool.lendToken,redeemAmount,_spAmount);
@@ -436,13 +452,13 @@ contract PledgePool is ReentrancyGuard, SafeTransfer, multiSignatureClient{
         require(borrowInfo.stakeAmount > 0, unicode"claimBorrow: 没有索取 jp_token");
         require(!borrowInfo.hasNoClaim,unicode"claimBorrow: 再次索取");
         // 总 jp 数量 = settleAmountLend * martgageRate
-        uint256 totalJpAmount = data.settleAmountLend.mul(pool.martgageRate).div(baseDecimal);
-        uint256 userShare = borrowInfo.stakeAmount.mul(calDecimal).div(pool.borrowSupply);
-        uint256 jpAmount = totalJpAmount.mul(userShare).div(calDecimal);
+        uint256 totalJpAmount = Math.mulDiv(data.settleAmountLend * lendScale[_pid], pool.martgageRate, baseDecimal);
+
+        uint256 jpAmount = Math.mulDiv(totalJpAmount, borrowInfo.stakeAmount, pool.borrowSupply);
         // 铸造 jp token
         pool.jpCoin.mint(msg.sender, jpAmount);
         // 索取贷款资金
-        uint256 borrowAmount = data.settleAmountLend.mul(userShare).div(calDecimal);
+        uint256 borrowAmount = Math.mulDiv(data.settleAmountLend, borrowInfo.stakeAmount, pool.borrowSupply);
         _redeem(payable(msg.sender),pool.lendToken,borrowAmount);
         // 更新用户信息
         borrowInfo.hasNoClaim = true;
@@ -463,13 +479,13 @@ contract PledgePool is ReentrancyGuard, SafeTransfer, multiSignatureClient{
         // 销毁jp token
         pool.jpCoin.burn(msg.sender,_jpAmount);
         // jp份额
-        uint256 totalJpAmount = data.settleAmountLend.mul(pool.martgageRate).div(baseDecimal);
-        uint256 jpShare = _jpAmount.mul(calDecimal).div(totalJpAmount);
+        uint256 totalJpAmount = Math.mulDiv(data.settleAmountLend * lendScale[_pid], pool.martgageRate, baseDecimal);
+
         // 完成状态
         if (pool.state == PoolState.FINISH) {
             // 要求当前时间大于结束时间
             require(block.timestamp > pool.endTime, "withdrawBorrow: less than end time");
-            uint256 redeemAmount = jpShare.mul(data.finishAmountBorrow).div(calDecimal);
+            uint256 redeemAmount = Math.mulDiv(data.finishAmountBorrow, _jpAmount, totalJpAmount);
             _redeem(payable(msg.sender),pool.borrowToken,redeemAmount);
             emit WithdrawBorrow(msg.sender, pool.borrowToken, _jpAmount, redeemAmount);
         }
@@ -477,7 +493,7 @@ contract PledgePool is ReentrancyGuard, SafeTransfer, multiSignatureClient{
         if (pool.state == PoolState.LIQUIDATION){
             // 要求当前时间大于匹配时间
             require(block.timestamp > pool.settleTime, "withdrawBorrow: less than match time");
-            uint256 redeemAmount = jpShare.mul(data.liquidationAmounBorrow).div(calDecimal);
+            uint256 redeemAmount = Math.mulDiv(data.liquidationAmounBorrow, _jpAmount, totalJpAmount);
             _redeem(payable(msg.sender),pool.borrowToken,redeemAmount);
             emit WithdrawBorrow(msg.sender, pool.borrowToken, _jpAmount, redeemAmount);
         }
@@ -531,17 +547,20 @@ contract PledgePool is ReentrancyGuard, SafeTransfer, multiSignatureClient{
             // 获取标的物价格
             uint256[2]memory prices = getUnderlyingPriceView(_pid);
             // 总保证金价值 = 保证金数量 * 保证金价格
-            uint256 totalValue = pool.borrowSupply.mul(prices[1].mul(calDecimal).div(prices[0])).div(calDecimal);
-            // 转换为稳定币价值
-            uint256 actualValue = totalValue.mul(baseDecimal).div(pool.martgageRate);
-            if (pool.lendSupply > actualValue){
-                // 总借款大于总借出
-                data.settleAmountLend = actualValue;
+            require(prices[0] > 0 && prices[1] > 0, "Invalid oracle price");
+            uint256 relativePrice = Math.mulDiv(prices[1], calDecimal, prices[0]);
+            require(relativePrice > 0, "Invalid relative price");
+            uint256 valueWad = Math.mulDiv(pool.borrowSupply, relativePrice, calDecimal);
+            uint256 capacity = Math.mulDiv(valueWad, baseDecimal, pool.martgageRate) / lendScale[_pid];
+            require(capacity > 0, "Zero matched principal");
+            if (pool.lendSupply > capacity) {
+                data.settleAmountLend = capacity;
                 data.settleAmountBorrow = pool.borrowSupply;
             } else {
-                // 总借款小于总借出
                 data.settleAmountLend = pool.lendSupply;
-                data.settleAmountBorrow = pool.lendSupply.mul(pool.martgageRate).div(prices[1].mul(baseDecimal).div(prices[0]));
+                uint256 requiredValue = Math.mulDiv(pool.lendSupply * lendScale[_pid], pool.martgageRate, baseDecimal, Math.Rounding.Up);
+                data.settleAmountBorrow = Math.mulDiv(requiredValue, calDecimal, relativePrice, Math.Rounding.Up);
+                require(data.settleAmountBorrow <= pool.borrowSupply, "Insufficient pool collateral");
             }
             // 更新池子状态
             pool.state = PoolState.EXECUTION;
@@ -633,7 +652,9 @@ contract PledgePool is ReentrancyGuard, SafeTransfer, multiSignatureClient{
         // 保证金价格
         uint256[2]memory prices = getUnderlyingPriceView(_pid); // 获取标的价格视图
         // 保证金当前价值 = 保证金数量 * 保证金价格
-        uint256 borrowValueNow = data.settleAmountBorrow.mul(prices[1].mul(calDecimal).div(prices[0])).div(calDecimal);
+        require(prices[0] > 0 && prices[1] > 0, "Invalid oracle price");
+        uint256 relativePrice = Math.mulDiv(prices[1], calDecimal, prices[0]);
+        uint256 borrowValueNow = Math.mulDiv(data.settleAmountBorrow, relativePrice, calDecimal) / lendScale[_pid];
         // 清算阈值 = settleAmountLend*(1+autoLiquidateThreshold)
         uint256 valueThreshold = data.settleAmountLend.mul(baseDecimal.add(pool.autoLiquidateThreshold)).div(baseDecimal);
         return borrowValueNow < valueThreshold; // 如果保证金当前价值小于清算阈值，则返回true，否则返回false
@@ -729,11 +750,8 @@ contract PledgePool is ReentrancyGuard, SafeTransfer, multiSignatureClient{
       * @dev Swap
       */
     function _swap(address _swapRouter,address token0,address token1,uint256 amount0) internal returns (uint256) {
-        if (token0 != address(0)){
-            _safeApprove(token0, address(_swapRouter), type(uint256).max);
-        }
-        if (token1 != address(0)){
-            _safeApprove(token1, address(_swapRouter), type(uint256).max);
+        if (token0 != address(0)) {
+            OZSafeERC20.forceApprove(OZERC20(token0), _swapRouter, amount0);
         }
         IUniswapV2Router02 IUniswap = IUniswapV2Router02(_swapRouter);
         address[] memory path = _getSwapPath(_swapRouter,token0,token1);

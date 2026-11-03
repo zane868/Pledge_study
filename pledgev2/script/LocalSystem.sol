@@ -119,6 +119,10 @@ abstract contract LocalSystem {
         return 1 hours;
     }
 
+    function _stableUnit() internal pure virtual returns (uint256) { return 1 ether; }
+
+    function _stableArtifact() internal pure virtual returns (string memory) { return "out/BUSD.sol/BEP20Token.json"; }
+
     function _signatureOwners() internal view virtual returns (address[] memory owners) {
         owners = new address[](2);
         owners[0] = ownerA;
@@ -150,7 +154,7 @@ abstract contract LocalSystem {
         multisig = IMultisig(_deploy("out/multiSignature.sol/multiSignature.json", abi.encode(owners, 2)));
         oracle =
             IOracle(_deploy("out/BscPledgeOracle.sol/BscPledgeOracle.json", abi.encode(address(multisig))));
-        stable = IToken(_deploy("out/BUSD.sol/BEP20Token.json", ""));
+        stable = IToken(_deploy(_stableArtifact(), ""));
         weth = _deploy("out/WETH9.sol/WETH9.json", "");
         factory = _deploy("out/UniswapV2Factory.sol/UniswapV2Factory.json", abi.encode(operator));
         router =
@@ -165,15 +169,18 @@ abstract contract LocalSystem {
         _authorize(operator, address(oracle));
         _authorize(operator, address(pool));
         _start(operator);
+        pool.setMinAmount(100 * _stableUnit());
+        _stop();
+        _start(operator);
         oracle.setPrice(address(stable), 1e8);
         oracle.setPrice(address(0), 2000e8);
         uint256 liquidityEth = _liquidityEth();
-        uint256 liquidityStable = liquidityEth * 2000;
+        uint256 liquidityStable = liquidityEth * 2000 * _stableUnit() / 1 ether;
         stable.approve(address(router), liquidityStable);
         router.addLiquidityETH{value: liquidityEth}(
             address(stable), liquidityStable, 0, 0, operator, block.timestamp + 1 hours
         );
-        stable.transfer(lender, 20_000 ether);
+        stable.transfer(lender, 20_000 * _stableUnit());
         _stop();
         _createPool(_poolDuration());
     }
@@ -199,7 +206,7 @@ abstract contract LocalSystem {
             settleTime,
             endTime,
             20_000_000,
-            100_000 ether,
+            100_000 * _stableUnit(),
             200_000_000,
             address(stable),
             address(0),

@@ -375,17 +375,12 @@ contract PledgePoolTest is Test, LocalSystem {
         assertEq(sp.balanceOf(lender), 1000 ether);
     }
 
-    function testZeroPriceMatchingRollback() public {
+    function testZeroPriceRejected() public {
         _fund(1000 ether, 1 ether);
         vm.prank(operator);
+        vm.expectRevert("Invalid price");
         oracle.setPrice(address(stable), 0);
-        vm.warp(settleTime + 1);
-        vm.prank(operator);
-        vm.expectRevert();
-        pool.settle(pid);
         assertEq(pool.getPoolState(pid), 0);
-        (uint256 matched,,,,,) = pool.poolDataInfo(pid);
-        assertEq(matched, 0);
     }
 
     function testExistingLiquidationThresholdAndFullTermInterest() public {

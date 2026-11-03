@@ -5,37 +5,59 @@ import os
 from pathlib import Path
 import subprocess
 import urllib.request
+import http.client
+import threading
+from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parent.parent
 RPC_URL = os.environ["SEPOLIA_RPC_URL"]
 
 
+_connections = threading.local()
+_rpc_target = urlsplit(RPC_URL)
+
 def rpc(method, params):
     payload = json.dumps({"jsonrpc": "2.0", "id": 1, "method": method, "params": params}).encode()
-    request = urllib.request.Request(RPC_URL, data=payload, headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(request, timeout=45) as response:
-        result = json.load(response)
-    if "error" in result:
-        raise RuntimeError(result["error"].get("message", "RPC error"))
-    return result["result"]
+    target = _rpc_target.path or "/"
+    if _rpc_target.query: target += "?" + _rpc_target.query
+    for attempt in range(2):
+        connection = getattr(_connections, "connection", None)
+        if connection is None:
+            cls = http.client.HTTPSConnection if _rpc_target.scheme == "https" else http.client.HTTPConnection
+            connection = cls(_rpc_target.hostname, _rpc_target.port, timeout=45)
+            _connections.connection = connection
+        try:
+            connection.request("POST", target, payload, {"Content-Type": "application/json"})
+            response = connection.getresponse()
+            data = response.read()
+            if response.status != 200: raise RuntimeError("RPC HTTP status " + str(response.status))
+            result = json.loads(data)
+            if "error" in result: raise RuntimeError(result["error"].get("message", "RPC error"))
+            return result["result"]
+        except (http.client.RemoteDisconnected, BrokenPipeError, ConnectionResetError):
+            connection.close(); _connections.connection = None
+            if attempt: raise
 
 
 def main():
     manifest = json.loads((ROOT / "deployments/sepolia.json").read_text())
+    assert manifest["stableDecimals"] == 6, "USDT must use six decimals"
     broadcast = json.loads((ROOT / "broadcast/DeploySepolia.s.sol/11155111/run-latest.json").read_text())
     assert int(rpc("eth_chainId", []), 16) == manifest["chainId"] == 11155111
     block = rpc("eth_blockNumber", [])
     receipts = broadcast["receipts"]
     assert len(receipts) == len(broadcast["transactions"]) > 0, "Incomplete broadcast"
-    for receipt in receipts:
-        live = rpc("eth_getTransactionReceipt", [receipt["transactionHash"]])
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        live_receipts = list(executor.map(lambda receipt: rpc("eth_getTransactionReceipt", [receipt["transactionHash"]]), receipts))
+    for receipt, live in zip(receipts, live_receipts):
         assert live and int(live["status"], 16) == 1, "Failed or missing transaction"
         assert live["blockHash"] == receipt["blockHash"], "Receipt changed"
 
     artifacts = {
         "multisig": "multiSignature.sol/multiSignature.json",
         "oracle": "BscPledgeOracle.sol/BscPledgeOracle.json",
-        "stable": "BUSD.sol/BEP20Token.json",
+        "stable": "TestUSDT.sol/TestUSDT.json",
         "weth": "WETH9.sol/WETH9.json",
         "factory": "UniswapV2Factory.sol/UniswapV2Factory.json",
         "router": "UniswapV2Router02.sol/UniswapV2Router02.json",
@@ -75,14 +97,17 @@ def main():
     address_equal(call(pool, "oracle()")[0], manifest["oracle"])
     address_equal(call(pool, "swapRouter()")[0], manifest["router"])
     address_equal(call(pool, "feeAddress()")[0], manifest["feeAddress"])
-    address_equal(call(manifest["stable"], "owner()")[0], manifest["operator"])
+    if manifest["stableDecimals"] == 6:
+        assert call(pool, "lendScale(uint256)", 0)[0] == 10**12
+        address_equal(call(pool, "lendingAsset()")[0], manifest["stable"])
     assert call(pool, "poolLength()")[0] == 1
     assert call(pool, "getPoolState(uint256)", 0)[0] == 0
-    assert call(pool, "minAmount()")[0] == 10**18
+    assert call(pool, "minAmount()")[0] == 10**manifest["stableDecimals"]
     assert call(pool, "globalPaused()")[0] == 0
     assert call(pool, "lendFee()")[0] == call(pool, "borrowFee()")[0] == 0
-    assert call(manifest["stable"], "decimals()")[0] == 18
+    assert call(manifest["stable"], "decimals()")[0] == manifest["stableDecimals"]
     for name in ["sp", "jp"]:
+        assert call(manifest[name], "decimals()")[0] == 18
         assert call(manifest[name], "isMinter(address)", pool)[0] == 1
         assert call(manifest[name], "getMinterLength()")[0] == 1
     info = call(pool, "poolBaseInfo(uint256)", 0)
@@ -103,7 +128,7 @@ def main():
     pair_artifact = json.loads((ROOT / "out/UniswapV2Factory.sol/UniswapV2Pair.json").read_text())
     assert rpc("eth_getCode", [pair, block]).lower() == pair_artifact["deployedBytecode"]["object"].lower()
     reserves = call(pair, "getReserves()")
-    assert sorted(reserves[:2]) == [10**17, 200 * 10**18]
+    assert sorted(reserves[:2]) == sorted([10**17, 200 * 10**manifest["stableDecimals"]]), "DEX reserves differ from seed liquidity"
 
     deployment_blocks = [int(receipt["blockNumber"], 16) for receipt in receipts]
     manifest.update({
@@ -133,7 +158,7 @@ if __name__ == "__main__":
     try:
         main()
     except Exception as error:
-        message = str(error)
+        message = str(error) or repr(error)
         for name in ["SEPOLIA_RPC_URL", "SEPOLIA_PRIVATE_KEY", "SEPOLIA_PRIVATE_KEY_2", "ETHERSCAN_API_KEY"]:
             value = os.environ.get(name)
             if value:

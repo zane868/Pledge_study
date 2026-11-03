@@ -38,6 +38,7 @@ contract BscPledgeOracle is multiSignatureClient {
       * @param newDecimals replacement oldDecimal
       */
     function setDecimals(uint256 newDecimals) public validCall{
+        require(newDecimals == 1, "Price precision is fixed at 1e8");
         decimals = newDecimals;
     }
 
@@ -51,7 +52,8 @@ contract BscPledgeOracle is multiSignatureClient {
         require(assets.length == prices.length, "input arrays' length are not equal");
         uint256 len = assets.length;
         for (uint i=0;i<len;i++){
-            priceMap[i] = prices[i];
+            require(prices[i] > 0, "Invalid price");
+            priceMap[assets[i]] = prices[i];
         }
     }
 
@@ -89,15 +91,12 @@ contract BscPledgeOracle is multiSignatureClient {
     function getUnderlyingPrice(uint256 underlying) public view returns (uint256) {
         AggregatorV3Interface assetsPrice = assetsMap[underlying];
         if (address(assetsPrice) != address(0)){
-            (, int price,,,) = assetsPrice.latestRoundData();
-            uint256 tokenDecimals = decimalsMap[underlying];
-            if (tokenDecimals < 18){
-                return uint256(price)/decimals*(10**(18-tokenDecimals));
-            }else if (tokenDecimals > 18){
-                return uint256(price)/decimals/(10**(18-tokenDecimals));
-            }else{
-                return uint256(price)/decimals;
-            }
+            (uint80 roundId, int256 answer,, uint256 updatedAt, uint80 answeredInRound) = assetsPrice.latestRoundData();
+            require(answer > 0 && updatedAt > 0 && updatedAt <= block.timestamp && answeredInRound >= roundId, "Invalid price round");
+            uint8 feedDecimals = assetsPrice.decimals();
+            require(feedDecimals <= 18, "Unsupported feed decimals");
+            uint256 price = uint256(answer);
+            return feedDecimals <= 8 ? price * (10 ** (8 - feedDecimals)) : price / (10 ** (feedDecimals - 8));
         }else {
             return priceMap[underlying];
         }
@@ -111,6 +110,7 @@ contract BscPledgeOracle is multiSignatureClient {
       * @param price the Asset's price
       */
     function setPrice(address asset,uint256 price) public validCall {
+        require(price > 0, "Invalid price");
         priceMap[uint256(uint160(asset))] = price;
     }
 

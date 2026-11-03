@@ -58,3 +58,5 @@ forge test -vv
 Foundry 仍会提示源实现中的事件顺序、转账、精度与类型转换等 lint 项；编译通过不等于
 这些现有设计问题已经解决。PRD 中的账户级授权复用、清算阈值、滑点保护、池级预算、
 价格有效性和不足额退出仍见 [合约实施记录](contract-baseline.md)。
+
+后续已实施 USDT 六位精度适配，现行规则及新增测试见 [USDT6 迁移](usdt6-migration.md)。

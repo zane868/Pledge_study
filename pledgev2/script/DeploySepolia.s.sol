@@ -19,6 +19,9 @@ contract DeploySepolia is Script, LocalSystem {
         vm.stopBroadcast();
     }
 
+    function _stableUnit() internal pure override returns (uint256) { return 1e6; }
+    function _stableArtifact() internal pure override returns (string memory) { return "out/TestUSDT.sol/TestUSDT.json"; }
+
     function _liquidityEth() internal pure override returns (uint256) {
         return 0.1 ether;
     }
@@ -61,7 +64,7 @@ contract DeploySepolia is Script, LocalSystem {
 
         _deploySystem();
         _start(operator);
-        pool.setMinAmount(1 ether); // 18-decimal test stablecoin; deposit must be strictly greater.
+        pool.setMinAmount(1e6); // Six-decimal test USDT; deposit must be strictly greater.
         _stop();
 
         string memory name = "sepolia";
@@ -84,7 +87,7 @@ contract DeploySepolia is Script, LocalSystem {
         vm.serializeAddress(name, "admins", _signatureOwners());
         vm.serializeUint(name, "threshold", 2);
         vm.serializeAddress(name, "feeAddress", fee);
-        vm.serializeUint(name, "stableDecimals", 18);
+        vm.serializeUint(name, "stableDecimals", 6);
         vm.serializeUint(name, "initialLiquidityEthWei", _liquidityEth());
         vm.serializeUint(name, "poolId", pid);
         vm.serializeUint(name, "settleTime", settleTime);

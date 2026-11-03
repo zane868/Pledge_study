@@ -63,7 +63,7 @@ FOUNDRY_PROFILE=sepolia forge test -vv
 
 `sepolia` profile 使用 Amsterdam 运行时计价，编译目标继续保持 Paris。
 管理员为指定的三个地址，签署门槛为 2/3，部署和管理执行账户为指定 Owner。
-脚本注入 0.1 测试 ETH 和 200 测试稳定币流动性，募集一天，匹配后期限七天；
+脚本注入 0.1 测试 ETH 和 200 测试 USDT流动性，募集一天，匹配后期限七天；
 最低出借限制为严格大于 1 测试稳定币。预言机为测试手动价格，不是正式价格源。
 
 `deployments/sepolia.json` 是脚本运行清单，模拟执行也会生成它。
@@ -76,3 +76,5 @@ FOUNDRY_PROFILE=sepolia forge test -vv
 本次保留匹配、计息、费用和清算的原业务规则，PRD 中的既有差异见
 [contract-baseline.md](../docs/contract-baseline.md)。
 `reference/source-manifest.json` 同时记录源版本文件哈希与升级后文件哈希。
+
+当前测试网已完成 ETH/USDT 六位精度适配，SP/JP 保持 18 位，详见 [USDT6 迁移](../docs/usdt6-migration.md)。

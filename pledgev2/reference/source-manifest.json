@@ -3,7 +3,7 @@
   "sourcePath": "pledgev2/contracts",
   "sourceCommit": "78b418d2f5e7acde8881e142d6369fc01186ff9e",
   "migrationDate": "2026-11-03",
-  "policy": "Original source hashes are retained under sha256; upgradedSha256 identifies Solidity 0.8.24 sources.",
+  "policy": "Original imported Solidity hashes retained under sha256. upgradedSha256 tracks the Solidity 0.8.24 ETH/USDT decimal-aware implementation.",
   "sha256": {
     "contracts/interface/ERC20Interface.sol": "15057db84a0246c058d289d8199f2d29c04ebe3b79e25f90dd47b465899712d7",
     "contracts/interface/IBscPledgeOracle.sol": "1796a514bc45ef24019349409fc664ade6e8b4e3f5af317b005f4800fd04bfe5",
@@ -48,12 +48,13 @@
     "contracts/mock/MockPledgePool.sol": "4e87d45ce174862e676f8671ac11fb4c8aabc792de581c2d27e5f9cf53186211",
     "contracts/mock/MockUniswap/UniswapV2Factory.sol": "0cb73d4b307fa7fe5e01f5663c154152b3362f64ddfad2f70292c1b6afb16cab",
     "contracts/mock/MockUniswap/UniswapV2Router02.sol": "7410ee0af1dc1611a08e0f4c7c6db4a855954b53ca7186b74e5af3378e212fc1",
+    "contracts/mock/TestUSDT.sol": "875d3fee87ac1f61420e9ed355b90daefa70dccc8dca465a175110fb62d37cf0",
     "contracts/mock/WETH9.sol": "ec319f695a63f1c0a20d4bc12a88875286be91d3f89bcec104bcff07485c2897",
     "contracts/multiSignature/multiSignature.sol": "d5f5d7ddf27044912488e9b767827e3916954516fa9b54c7c45842d9b6eb2781",
     "contracts/multiSignature/multiSignatureClient.sol": "9141be51e9117296c9f0f785d1f2903bc2854807105884b956d5f3aa3a3d7f88",
     "contracts/pledge/AddressPrivileges.sol": "7db5c65e1a1a0ae79bba6963684509d4942b7a651fed01403dc0ac6aa2ff9426",
-    "contracts/pledge/BscPledgeOracle.sol": "094756df316877b631a19f27596e24f02fa7976b22d9a256e12386ca7f3cebcb",
+    "contracts/pledge/BscPledgeOracle.sol": "af3c8424d857a52d6c4a866ade5919a7b13a20aaf2c63c5753671241ae469604",
     "contracts/pledge/DebtToken.sol": "4b0c55499093da7de6624f91b3567f99b9a45ab6d7b9ee21efa71ebe03ec8486",
-    "contracts/pledge/PledgePool.sol": "20ffba03916e58b2f697ccb7e72920e8a6b2a8d0e89cc75341a6536d8a5b0474"
+    "contracts/pledge/PledgePool.sol": "8144279a01d589488741bb0e4e92a6b73882e72b95a11e75ed16e72a7aed7740"
   }
 }
