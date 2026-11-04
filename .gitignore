@@ -20,3 +20,11 @@ pledge-backend/**/logs/
 pledge-backend/**/*.log
 !pledge-backend/contract/abi/
 !pledge-backend/contract/abi/**
+
+# 前端构建产物与依赖
+pledge-fe/dist/
+pledge-fe/*.tsbuildinfo
+
+# 前端从 pledgev2/abi 同步的 ABI（由 npm run sync-abi 生成，不入库）
+!shared/abi/
+!shared/abi/**

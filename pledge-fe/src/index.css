@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    background-color: #0b0e14;
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-ink-900 text-slate-200 antialiased;
+    font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'PingFang SC',
+      'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  }
+  /* 金额一律等宽，避免跳动 */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl border border-white/5 bg-ink-800 p-5;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .btn-primary {
+    @apply btn bg-accent-500 text-white hover:bg-accent-600;
+  }
+  .btn-ghost {
+    @apply btn border border-white/10 text-slate-300 hover:bg-white/5;
+  }
+  .field {
+    @apply w-full rounded-lg border border-white/10 bg-ink-900 px-3 py-2.5 text-sm text-slate-100 outline-none placeholder:text-slate-500 focus:border-accent-500;
+  }
+  .label {
+    @apply mb-1.5 block text-xs font-medium text-slate-400;
+  }
+  .tag {
+    @apply inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium;
+  }
+  .kv {
+    @apply flex items-baseline justify-between gap-4 py-2 text-sm;
+  }
+  .kv-key {
+    @apply shrink-0 text-slate-400;
+  }
+  .kv-val {
+    @apply tabular text-right text-slate-200;
+  }
+}

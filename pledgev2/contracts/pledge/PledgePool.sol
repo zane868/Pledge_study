@@ -535,12 +535,29 @@ contract PledgePool is ReentrancyGuard, SafeTransfer, multiSignatureClient{
      * @param _pid 是池子的索引
      */
     function settle(uint256 _pid) public validCall {
+        // 需要当前时间大于池子的结算时间
+        require(block.timestamp > poolBaseInfo[_pid].settleTime, unicode"settle: 小于结算时间");
+        _settle(_pid);
+    }
+
+    /**
+     * @dev  强制结算（跳过结算时间校验），用于运营应急处理
+     * @dev  与 settle 的唯一区别是不校验 block.timestamp > settleTime
+     * @param _pid 是池子的索引
+     */
+    function forceSettle(uint256 _pid) public validCall {
+        _settle(_pid);
+    }
+
+    /**
+     * @dev  结算的内部实现，不含时间校验
+     * @param _pid 是池子的索引
+     */
+    function _settle(uint256 _pid) internal {
         // 获取基础池信息
         PoolBaseInfo storage pool = poolBaseInfo[_pid];
         // 获取数据池信息
         PoolDataInfo storage data = poolDataInfo[_pid];
-        // 需要当前时间大于池子的结算时间
-        require(block.timestamp > poolBaseInfo[_pid].settleTime, unicode"settle: 小于结算时间");
         // 池子的状态必须是匹配状态
         require(pool.state == PoolState.MATCH, unicode"settle: 池子状态必须是匹配");
         if (pool.lendSupply > 0 && pool.borrowSupply > 0) {
@@ -589,12 +606,29 @@ contract PledgePool is ReentrancyGuard, SafeTransfer, multiSignatureClient{
      * @param _pid 是池子的索引
      */
     function finish(uint256 _pid) public validCall {
+        // 验证当前时间是否大于池子的结束时间
+        require(block.timestamp > poolBaseInfo[_pid].endTime, "finish: less than end time");
+        _finish(_pid);
+    }
+
+    /**
+     * @dev 强制结算（跳过结束时间校验），用于运营应急处理
+     * @dev 与 finish 的唯一区别是不校验 block.timestamp > endTime
+     * @param _pid 是池子的索引
+     */
+    function forceFinish(uint256 _pid) public validCall {
+        _finish(_pid);
+    }
+
+    /**
+     * @dev 结算的内部实现，不含时间校验
+     * @param _pid 是池子的索引
+     */
+    function _finish(uint256 _pid) internal {
         // 获取基础池子信息和数据信息
         PoolBaseInfo storage pool = poolBaseInfo[_pid];
         PoolDataInfo storage data = poolDataInfo[_pid];
 
-        // 验证当前时间是否大于池子的结束时间
-        require(block.timestamp > poolBaseInfo[_pid].endTime, "finish: less than end time");
         // 验证池子的状态是否为执行状态
         require(pool.state == PoolState.EXECUTION,"finish: pool state must be execution");
 
@@ -602,7 +636,9 @@ contract PledgePool is ReentrancyGuard, SafeTransfer, multiSignatureClient{
         (address token0, address token1) = (pool.borrowToken, pool.lendToken);
 
         // 计算时间比率 = ((结束时间 - 结算时间) * 基础小数)/365天
-        uint256 timeRatio = ((pool.endTime.sub(pool.settleTime)).mul(baseDecimal)).div(baseYear);
+        // 强制结算时结束时间可能早于结算时间，此时按 0 计息，避免 SafeMath 下溢回滚
+        uint256 duration = pool.endTime > pool.settleTime ? pool.endTime.sub(pool.settleTime) : 0;
+        uint256 timeRatio = (duration.mul(baseDecimal)).div(baseYear);
 
         // 计算利息 = 时间比率 * 利率 * 结算贷款金额
         uint256 interest = timeRatio.mul(pool.interestRate.mul(data.settleAmountLend)).div(1e16);
@@ -665,9 +701,27 @@ contract PledgePool is ReentrancyGuard, SafeTransfer, multiSignatureClient{
      * @param _pid 是池子的索引
      */
     function liquidate(uint256 _pid) public validCall {
+        // 需要当前时间大于结算时间
+        require(block.timestamp > poolBaseInfo[_pid].settleTime, unicode"现在的时间小于匹配时间");
+        _liquidate(_pid);
+    }
+
+    /**
+     * @dev 强制清算（跳过结算时间校验），用于运营应急处理
+     * @dev 与 liquidate 的唯一区别是不校验 block.timestamp > settleTime
+     * @param _pid 是池子的索引
+     */
+    function forceLiquidate(uint256 _pid) public validCall {
+        _liquidate(_pid);
+    }
+
+    /**
+     * @dev 清算的内部实现，不含时间校验
+     * @param _pid 是池子的索引
+     */
+    function _liquidate(uint256 _pid) internal {
         PoolDataInfo storage data = poolDataInfo[_pid]; // 获取池子的数据信息
         PoolBaseInfo storage pool = poolBaseInfo[_pid]; // 获取池子的基本信息
-        require(block.timestamp > pool.settleTime, unicode"现在的时间小于匹配时间"); // 需要当前时间大于结算时间
         require(pool.state == PoolState.EXECUTION,unicode"liquidate: 池子的状态必须是执行状态"); // 需要池子的状态是执行状态
         // sellamount
         (address token0, address token1) = (pool.borrowToken, pool.lendToken); // 获取借款和贷款的token

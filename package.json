@@ -1,0 +1,11 @@
+{
+  "name": "pledge-workspace",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev:fe": "pnpm --filter pledge-fe dev",
+    "dev:admin": "pnpm --filter pledge-admin dev",
+    "build:fe": "pnpm --filter pledge-fe build",
+    "build:admin": "pnpm --filter pledge-admin build"
+  }
+}

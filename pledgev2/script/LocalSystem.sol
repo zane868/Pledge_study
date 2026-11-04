@@ -75,8 +75,11 @@ interface IPool {
     function setSwapRouterAddress(address) external;
     function setPause() external;
     function settle(uint256) external;
+    function forceSettle(uint256) external;
     function finish(uint256) external;
+    function forceFinish(uint256) external;
     function liquidate(uint256) external;
+    function forceLiquidate(uint256) external;
 }
 
 /// Shared setup for Forge tests and the Anvil deployment script.
