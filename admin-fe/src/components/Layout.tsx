@@ -1,10 +1,15 @@
-import { Link, useLocation } from 'react-router-dom';
-import { useAccount, useDisconnect } from 'wagmi';
-import { DEPLOYMENT } from '@shared/index';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAccount, useConnect, useDisconnect } from 'wagmi';
+import { DEPLOYMENT, shortAddress } from '@shared/index';
+import { getUsername, logout } from '@/lib/auth';
+
+const ADMINS = DEPLOYMENT.admins.map((a) => a.toLowerCase());
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
-  const { address } = useAccount();
+  const navigate = useNavigate();
+  const { address, isConnected } = useAccount();
+  const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
 
   const nav = [
@@ -13,12 +18,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
     { path: '/proposals', label: '多签提案' },
   ];
 
-  const adminLabel =
-    address?.toLowerCase() === DEPLOYMENT.admins[0].toLowerCase()
-      ? 'Owner A'
-      : address?.toLowerCase() === DEPLOYMENT.admins[1].toLowerCase()
-        ? 'Owner B'
-        : 'Owner C';
+  const username = getUsername();
+  const isAdminWallet = Boolean(address && ADMINS.includes(address.toLowerCase()));
+
+  const doLogout = async () => {
+    await logout();
+    navigate('/login', { replace: true });
+  };
 
   return (
     <div className="min-h-screen bg-ink-900">
@@ -42,16 +48,40 @@ export function Layout({ children }: { children: React.ReactNode }) {
               ))}
             </nav>
           </div>
+
           <div className="flex items-center gap-4">
-            <div className="text-right">
-              <div className="text-xs text-slate-500">{adminLabel}</div>
-              <div className="font-mono text-xs text-slate-300">
-                {address?.slice(0, 6)}…{address?.slice(-4)}
+            {/* 钱包：可选，仅链上操作需要 */}
+            {isConnected && address ? (
+              <div className="flex items-center gap-2 text-right">
+                <div>
+                  <div className="text-xs text-slate-500">
+                    {isAdminWallet ? '管理员钱包' : '非管理员钱包'}
+                  </div>
+                  <div className={`font-mono text-xs ${isAdminWallet ? 'text-slate-300' : 'text-amber-400'}`}>
+                    {shortAddress(address)}
+                  </div>
+                </div>
+                <button className="btn-ghost text-xs" onClick={() => disconnect()}>
+                  断开
+                </button>
               </div>
+            ) : (
+              <button
+                className="btn-ghost text-xs"
+                onClick={() => connectors[0] && connect({ connector: connectors[0] })}
+              >
+                连接钱包（操作时）
+              </button>
+            )}
+
+            <div className="h-6 w-px bg-slate-700" />
+
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-slate-400">{username ?? '管理员'}</span>
+              <button className="btn-ghost text-xs" onClick={doLogout}>
+                退出登录
+              </button>
             </div>
-            <button className="btn-ghost text-sm" onClick={() => disconnect()}>
-              断开
-            </button>
           </div>
         </div>
       </header>

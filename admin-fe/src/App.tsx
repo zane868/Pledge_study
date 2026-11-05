@@ -1,36 +1,21 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useAccount } from 'wagmi';
-import { DEPLOYMENT } from '@shared/index';
 import { LoginPage } from './pages/LoginPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { PoolListPage } from './pages/PoolListPage';
 import { CreatePoolPage } from './pages/CreatePoolPage';
 import { ProposalListPage } from './pages/ProposalListPage';
+import { SignPage } from './pages/SignPage';
 import { Layout } from './components/Layout';
+import { isLoggedIn } from './lib/auth';
 
-const ADMINS = DEPLOYMENT.admins.map((a) => a.toLowerCase());
-
+/**
+ * 页面访问只要求「账号密码已登录」。
+ * 涉及链上写操作时，各操作组件会自行检测钱包连接与管理员身份。
+ */
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { address, isConnected } = useAccount();
-
-  if (!isConnected || !address) {
+  if (!isLoggedIn()) {
     return <Navigate to="/login" replace />;
   }
-
-  if (!ADMINS.includes(address.toLowerCase())) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-ink-900 p-4">
-        <div className="card max-w-md text-center">
-          <h1 className="text-xl font-semibold text-negative">无权限访问</h1>
-          <p className="mt-3 text-sm text-slate-400">
-            当前地址 <span className="font-mono text-xs">{address}</span> 不在管理员白名单中
-          </p>
-          <p className="mt-4 text-xs text-slate-500">请使用管理员账户连接钱包</p>
-        </div>
-      </div>
-    );
-  }
-
   return <Layout>{children}</Layout>;
 }
 
@@ -68,6 +53,14 @@ export function App() {
           element={
             <ProtectedRoute>
               <ProposalListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/sign"
+          element={
+            <ProtectedRoute>
+              <SignPage />
             </ProtectedRoute>
           }
         />

@@ -223,7 +223,7 @@ export function PoolDetailPage() {
                 rel="noreferrer"
                 className="mt-0.5 block break-all font-mono text-xs text-accent-500 hover:underline"
               >
-                {STABLE_ADDRESS.slice(0, 10)}…{STABLE_ADDRESS.slice(-8)}
+                {STABLE_ADDRESS}
               </a>
             </div>
             <Field label="固定年利率" value={formatRate(pool.interestRate)} accent />

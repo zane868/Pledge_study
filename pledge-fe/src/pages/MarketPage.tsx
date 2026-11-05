@@ -20,6 +20,18 @@ export function MarketPage() {
   const chainNow = useChainNow();
   const { paused } = usePoolGlobals();
 
+  // 同步时间：lastSuccess 是后端最后成功同步时刻（RFC3339 UTC）。
+  // 同步周期固定 120s（见 pledge-backend/schedule/pledge_task.go），
+  // 下次计划同步按 lastSuccess + 120s 估算，误差为单轮同步耗时（约几秒）。
+  const SYNC_INTERVAL_S = 120;
+  const syncInfo = (() => {
+    const last = sync?.data?.lastSuccess;
+    if (!last) return null;
+    const lastUnix = Math.floor(new Date(last).getTime() / 1000);
+    if (!Number.isFinite(lastUnix)) return null;
+    return { lastUnix, nextUnix: lastUnix + SYNC_INTERVAL_S };
+  })();
+
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-end justify-between gap-3">
@@ -30,9 +42,16 @@ export function MarketPage() {
           </p>
         </div>
         {sync?.data && (
-          <p className="text-xs text-slate-500">
-            数据区块 {sync.data.blockNumber} · {sync.stale ? '快照可能已过期' : '同步正常'}
-          </p>
+          <div className="text-right text-xs leading-relaxed text-slate-500">
+            <p>
+              最后同步 {syncInfo ? formatTimestampWithTz(syncInfo.lastUnix) : '读取中'}
+              {sync.stale ? ' · 快照可能已过期' : ''}
+            </p>
+            <p>
+              下次同步 {syncInfo ? formatTimestampWithTz(syncInfo.nextUnix) : '—'} · 区块{' '}
+              {sync.data.blockNumber}
+            </p>
+          </div>
         )}
       </div>
 

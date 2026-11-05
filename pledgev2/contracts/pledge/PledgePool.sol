@@ -118,7 +118,11 @@ contract PledgePool is ReentrancyGuard, SafeTransfer, multiSignatureClient{
      // 紧急借出提取事件，from是提取者地址，token是提取的代币地址，amount是提取的数量
     event EmergencyLendWithdrawal(address indexed from, address indexed token, uint256 amount);
     // 状态改变事件，pid是项目id，beforeState是改变前的状态，afterState是改变后的状态
-    event StateChange(uint256 indexed pid, uint256 indexed beforeState, uint256 indexed afterState); 
+    event StateChange(uint256 indexed pid, uint256 indexed beforeState, uint256 indexed afterState);
+    // 池募集截止时间被修改事件，pid是项目id，oldSettleTime是旧值，newSettleTime是新值
+    event SetPoolSettleTime(uint256 indexed pid, uint256 indexed oldSettleTime, uint256 indexed newSettleTime);
+    // 池到期时间被修改事件，pid是项目id，oldEndTime是旧值，newEndTime是新值
+    event SetPoolEndTime(uint256 indexed pid, uint256 indexed oldEndTime, uint256 indexed newEndTime);
      // 设置费用事件，newLendFee是新的借出费用，newBorrowFee是新的借入费用
     event SetFee(uint256 indexed newLendFee, uint256 indexed newBorrowFee);
     // 设置交换路由器地址事件，oldSwapAddress是旧的交换地址，newSwapAddress是新的交换地址
@@ -542,10 +546,19 @@ contract PledgePool is ReentrancyGuard, SafeTransfer, multiSignatureClient{
 
     /**
      * @dev  强制结算（跳过结算时间校验），用于运营应急处理
-     * @dev  与 settle 的唯一区别是不校验 block.timestamp > settleTime
+     * @dev  与 settle 的唯一区别是不校验 block.timestamp > settleTime，
+     *       并会把募集截止时间 settleTime 提前到当前时间前 5 秒，
+     *       使后续 claimLend / claimBorrow 的 timeAfter 校验（block.timestamp > settleTime）能够通过。
      * @param _pid 是池子的索引
      */
     function forceSettle(uint256 _pid) public validCall {
+        PoolBaseInfo storage pool = poolBaseInfo[_pid];
+        uint256 oldSettleTime = pool.settleTime;
+        uint256 newSettleTime = block.timestamp > 5 ? block.timestamp - 5 : 0;
+        if (newSettleTime != oldSettleTime) {
+            pool.settleTime = newSettleTime;
+            emit SetPoolSettleTime(_pid, oldSettleTime, newSettleTime);
+        }
         _settle(_pid);
     }
 
@@ -613,11 +626,64 @@ contract PledgePool is ReentrancyGuard, SafeTransfer, multiSignatureClient{
 
     /**
      * @dev 强制结算（跳过结束时间校验），用于运营应急处理
-     * @dev 与 finish 的唯一区别是不校验 block.timestamp > endTime
+     * @dev 与 finish 的唯一区别是不校验 block.timestamp > endTime，
+     *      并会把到期时间 endTime 提前到当前时间前 5 秒，
+     *      使后续 withdrawLend / withdrawBorrow 的 timeAfter 校验（block.timestamp > endTime）能够通过。
      * @param _pid 是池子的索引
      */
     function forceFinish(uint256 _pid) public validCall {
+        PoolBaseInfo storage pool = poolBaseInfo[_pid];
+        uint256 oldEndTime = pool.endTime;
+        uint256 newEndTime = block.timestamp > 5 ? block.timestamp - 5 : 0;
+        if (newEndTime != oldEndTime) {
+            pool.endTime = newEndTime;
+            emit SetPoolEndTime(_pid, oldEndTime, newEndTime);
+        }
         _finish(_pid);
+    }
+
+    /**
+     * @dev 直接修改池的募集截止时间 settleTime，用于运营应急纠偏。
+     * @dev 仅授权账户（validCall）可调用。改后会影响 timeAfter 校验与后续计息时长，
+     *      请仅在明确理解影响时使用。
+     * @param _pid 池索引
+     * @param _settleTime 新的募集截止时间（Unix 秒）
+     */
+    function setPoolSettleTime(uint256 _pid, uint256 _settleTime) public validCall {
+        PoolBaseInfo storage pool = poolBaseInfo[_pid];
+        uint256 oldSettleTime = pool.settleTime;
+        pool.settleTime = _settleTime;
+        emit SetPoolSettleTime(_pid, oldSettleTime, _settleTime);
+    }
+
+    /**
+     * @dev 直接修改池的到期时间 endTime，用于运营应急纠偏。
+     * @dev 仅授权账户（validCall）可调用。改后会影响 timeAfter 校验与计息时长，
+     *      请仅在明确理解影响时使用。
+     * @param _pid 池索引
+     * @param _endTime 新的到期时间（Unix 秒）
+     */
+    function setPoolEndTime(uint256 _pid, uint256 _endTime) public validCall {
+        PoolBaseInfo storage pool = poolBaseInfo[_pid];
+        uint256 oldEndTime = pool.endTime;
+        pool.endTime = _endTime;
+        emit SetPoolEndTime(_pid, oldEndTime, _endTime);
+    }
+
+    /**
+     * @dev 直接修改池状态，用于运营应急纠偏。
+     * @dev 仅授权账户（validCall）可调用。注意：直接改状态不保证配套资金字段
+     *      （settleAmountLend / finishAmountLend 等）已正确写入，可能破坏状态机一致性，
+     *      仅作为最后手段，务必先确认对应分配数据已就绪。
+     * @param _pid 池索引
+     * @param _state 目标状态（0=MATCH 1=EXECUTION 2=FINISH 3=LIQUIDATION 4=UNDONE）
+     */
+    function setPoolState(uint256 _pid, uint256 _state) public validCall {
+        require(_state <= uint256(PoolState.UNDONE), "setPoolState: invalid state");
+        PoolBaseInfo storage pool = poolBaseInfo[_pid];
+        uint256 beforeState = uint256(pool.state);
+        pool.state = PoolState(_state);
+        emit StateChange(_pid, beforeState, _state);
     }
 
     /**

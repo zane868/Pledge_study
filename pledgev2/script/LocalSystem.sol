@@ -126,6 +126,10 @@ abstract contract LocalSystem {
 
     function _stableArtifact() internal pure virtual returns (string memory) { return "out/BUSD.sol/BEP20Token.json"; }
 
+    // 返回固定的稳定币地址；默认 address(0) 表示部署新稳定币合约。
+    // 部署脚本可覆盖此函数以复用已存在的稳定币，避免重复铸币。
+    function _stableAddress() internal view virtual returns (address) { return address(0); }
+
     function _signatureOwners() internal view virtual returns (address[] memory owners) {
         owners = new address[](2);
         owners[0] = ownerA;
@@ -157,7 +161,8 @@ abstract contract LocalSystem {
         multisig = IMultisig(_deploy("out/multiSignature.sol/multiSignature.json", abi.encode(owners, 2)));
         oracle =
             IOracle(_deploy("out/BscPledgeOracle.sol/BscPledgeOracle.json", abi.encode(address(multisig))));
-        stable = IToken(_deploy(_stableArtifact(), ""));
+        address presetStable = _stableAddress();
+        stable = presetStable != address(0) ? IToken(presetStable) : IToken(_deploy(_stableArtifact(), ""));
         weth = _deploy("out/WETH9.sol/WETH9.json", "");
         factory = _deploy("out/UniswapV2Factory.sol/UniswapV2Factory.json", abi.encode(operator));
         router =

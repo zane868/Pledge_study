@@ -142,8 +142,10 @@ contract ForceSettlementTest is Test, LocalSystem {
     // forceLiquidate
     // ---------------------------------------------------------------
 
-    /// @dev 常规清算在结算时间之前必须失败
-    function testLiquidateRevertsBeforeSettleTime() public {
+    /// @dev 强制结算会把 settleTime 提前到当前时间前 5 秒，
+    ///      因此普通 liquidate 的时间校验（block.timestamp > settleTime）也能通过，
+    ///      不再被时间闸门拦截。
+    function testForceSettleAdvancesSettleTimeSoLiquidatePasses() public {
         _fund(1000 ether, 1 ether);
         vm.warp(settleTime - 1);
         vm.prank(operator);
@@ -151,8 +153,8 @@ contract ForceSettlementTest is Test, LocalSystem {
         assertEq(pool.getPoolState(pid), 1); // EXECUTION
 
         vm.prank(operator);
-        vm.expectRevert(bytes(unicode"现在的时间小于匹配时间"));
         pool.liquidate(pid);
+        assertEq(pool.getPoolState(pid), 3); // LIQUIDATION
     }
 
     /// @dev 强制清算：结算时间之前也能清算

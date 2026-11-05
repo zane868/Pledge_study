@@ -22,6 +22,11 @@ contract DeploySepolia is Script, LocalSystem {
     function _stableUnit() internal pure override returns (uint256) { return 1e6; }
     function _stableArtifact() internal pure override returns (string memory) { return "out/TestUSDT.sol/TestUSDT.json"; }
 
+    // 固定复用已部署的 TestUSDT，不再重复铸币。
+    function _stableAddress() internal pure override returns (address) {
+        return 0x0Cc069Daa724C367e0210B60994A197B05a80aBf;
+    }
+
     function _liquidityEth() internal pure override returns (uint256) {
         return 0.1 ether;
     }

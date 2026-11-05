@@ -35,7 +35,7 @@ var (
 
 // PledgePoolTokenMetaData contains all meta data concerning the PledgePoolToken contract.
 var PledgePoolTokenMetaData = &bind.MetaData{
-	ABI: "[{\"type\":\"constructor\",\"inputs\":[{\"name\":\"_oracle\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"_swapRouter\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"_feeAddress\",\"type\":\"address\",\"internalType\":\"addresspayable\"},{\"name\":\"_multiSignature\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"borrowFee\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"checkoutFinish\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"checkoutLiquidate\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"checkoutSettle\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"claimBorrow\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"claimLend\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"createPoolInfo\",\"inputs\":[{\"name\":\"_settleTime\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_endTime\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_interestRate\",\"type\":\"uint64\",\"internalType\":\"uint64\"},{\"name\":\"_maxSupply\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_martgageRate\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_lendToken\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"_borrowToken\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"_spToken\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"_jpToken\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"_autoLiquidateThreshold\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"depositBorrow\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_stakeAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"payable\"},{\"type\":\"function\",\"name\":\"depositLend\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_stakeAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"payable\"},{\"type\":\"function\",\"name\":\"emergencyBorrowWithdrawal\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"emergencyLendWithdrawal\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"feeAddress\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"addresspayable\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"finish\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"getMultiSignatureAddress\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"getPoolState\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"getUnderlyingPriceView\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256[2]\",\"internalType\":\"uint256[2]\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"globalPaused\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"lendFee\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"lendScale\",\"inputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"lendingAsset\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"liquidate\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"minAmount\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"oracle\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"contractIBscPledgeOracle\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"poolBaseInfo\",\"inputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"settleTime\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"endTime\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"interestRate\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"maxSupply\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"lendSupply\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"borrowSupply\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"martgageRate\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"lendToken\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"borrowToken\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"state\",\"type\":\"uint8\",\"internalType\":\"enumPledgePool.PoolState\"},{\"name\":\"spCoin\",\"type\":\"address\",\"internalType\":\"contractIDebtToken\"},{\"name\":\"jpCoin\",\"type\":\"address\",\"internalType\":\"contractIDebtToken\"},{\"name\":\"autoLiquidateThreshold\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"poolDataInfo\",\"inputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"settleAmountLend\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"settleAmountBorrow\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"finishAmountLend\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"finishAmountBorrow\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"liquidationAmounLend\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"liquidationAmounBorrow\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"poolLength\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"refundBorrow\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"refundLend\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setFee\",\"inputs\":[{\"name\":\"_lendFee\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_borrowFee\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setFeeAddress\",\"inputs\":[{\"name\":\"_feeAddress\",\"type\":\"address\",\"internalType\":\"addresspayable\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setMinAmount\",\"inputs\":[{\"name\":\"_minAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setPause\",\"inputs\":[],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setSwapRouterAddress\",\"inputs\":[{\"name\":\"_swapRouter\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"settle\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"swapRouter\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"userBorrowInfo\",\"inputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"stakeAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"refundAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"hasNoRefund\",\"type\":\"bool\",\"internalType\":\"bool\"},{\"name\":\"hasNoClaim\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"userLendInfo\",\"inputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"stakeAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"refundAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"hasNoRefund\",\"type\":\"bool\",\"internalType\":\"bool\"},{\"name\":\"hasNoClaim\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"withdrawBorrow\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_jpAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"withdrawLend\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_spAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"event\",\"name\":\"ClaimBorrow\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"ClaimLend\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"DepositBorrow\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"mintAmount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"DepositLend\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"mintAmount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"EmergencyBorrowWithdrawal\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"EmergencyLendWithdrawal\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"Redeem\",\"inputs\":[{\"name\":\"recieptor\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"RefundBorrow\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"refund\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"RefundLend\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"refund\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"SetFee\",\"inputs\":[{\"name\":\"newLendFee\",\"type\":\"uint256\",\"indexed\":true,\"internalType\":\"uint256\"},{\"name\":\"newBorrowFee\",\"type\":\"uint256\",\"indexed\":true,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"SetFeeAddress\",\"inputs\":[{\"name\":\"oldFeeAddress\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"newFeeAddress\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"SetMinAmount\",\"inputs\":[{\"name\":\"oldMinAmount\",\"type\":\"uint256\",\"indexed\":true,\"internalType\":\"uint256\"},{\"name\":\"newMinAmount\",\"type\":\"uint256\",\"indexed\":true,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"SetSwapRouterAddress\",\"inputs\":[{\"name\":\"oldSwapAddress\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"newSwapAddress\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"StateChange\",\"inputs\":[{\"name\":\"pid\",\"type\":\"uint256\",\"indexed\":true,\"internalType\":\"uint256\"},{\"name\":\"beforeState\",\"type\":\"uint256\",\"indexed\":true,\"internalType\":\"uint256\"},{\"name\":\"afterState\",\"type\":\"uint256\",\"indexed\":true,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"Swap\",\"inputs\":[{\"name\":\"fromCoin\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"toCoin\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"fromValue\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"toValue\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"WithdrawBorrow\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"burnAmount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"WithdrawLend\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"burnAmount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false}]",
+	ABI: "[{\"type\":\"constructor\",\"inputs\":[{\"name\":\"_oracle\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"_swapRouter\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"_feeAddress\",\"type\":\"address\",\"internalType\":\"addresspayable\"},{\"name\":\"_multiSignature\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"borrowFee\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"checkoutFinish\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"checkoutLiquidate\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"checkoutSettle\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"claimBorrow\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"claimLend\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"createPoolInfo\",\"inputs\":[{\"name\":\"_settleTime\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_endTime\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_interestRate\",\"type\":\"uint64\",\"internalType\":\"uint64\"},{\"name\":\"_maxSupply\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_martgageRate\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_lendToken\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"_borrowToken\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"_spToken\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"_jpToken\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"_autoLiquidateThreshold\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"depositBorrow\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_stakeAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"payable\"},{\"type\":\"function\",\"name\":\"depositLend\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_stakeAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"payable\"},{\"type\":\"function\",\"name\":\"emergencyBorrowWithdrawal\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"emergencyLendWithdrawal\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"feeAddress\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"addresspayable\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"finish\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"forceFinish\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"forceLiquidate\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"forceSettle\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"getMultiSignatureAddress\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"getPoolState\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"getUnderlyingPriceView\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256[2]\",\"internalType\":\"uint256[2]\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"globalPaused\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"lendFee\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"lendScale\",\"inputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"lendingAsset\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"liquidate\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"minAmount\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"oracle\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"contractIBscPledgeOracle\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"poolBaseInfo\",\"inputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"settleTime\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"endTime\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"interestRate\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"maxSupply\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"lendSupply\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"borrowSupply\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"martgageRate\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"lendToken\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"borrowToken\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"state\",\"type\":\"uint8\",\"internalType\":\"enumPledgePool.PoolState\"},{\"name\":\"spCoin\",\"type\":\"address\",\"internalType\":\"contractIDebtToken\"},{\"name\":\"jpCoin\",\"type\":\"address\",\"internalType\":\"contractIDebtToken\"},{\"name\":\"autoLiquidateThreshold\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"poolDataInfo\",\"inputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"settleAmountLend\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"settleAmountBorrow\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"finishAmountLend\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"finishAmountBorrow\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"liquidationAmounLend\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"liquidationAmounBorrow\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"poolLength\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"refundBorrow\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"refundLend\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setFee\",\"inputs\":[{\"name\":\"_lendFee\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_borrowFee\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setFeeAddress\",\"inputs\":[{\"name\":\"_feeAddress\",\"type\":\"address\",\"internalType\":\"addresspayable\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setMinAmount\",\"inputs\":[{\"name\":\"_minAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setPause\",\"inputs\":[],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setPoolEndTime\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_endTime\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setPoolSettleTime\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_settleTime\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setPoolState\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_state\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"setSwapRouterAddress\",\"inputs\":[{\"name\":\"_swapRouter\",\"type\":\"address\",\"internalType\":\"address\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"settle\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"swapRouter\",\"inputs\":[],\"outputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"userBorrowInfo\",\"inputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"stakeAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"refundAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"hasNoRefund\",\"type\":\"bool\",\"internalType\":\"bool\"},{\"name\":\"hasNoClaim\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"userLendInfo\",\"inputs\":[{\"name\":\"\",\"type\":\"address\",\"internalType\":\"address\"},{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[{\"name\":\"stakeAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"refundAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"hasNoRefund\",\"type\":\"bool\",\"internalType\":\"bool\"},{\"name\":\"hasNoClaim\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"},{\"type\":\"function\",\"name\":\"withdrawBorrow\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_jpAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"function\",\"name\":\"withdrawLend\",\"inputs\":[{\"name\":\"_pid\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"_spAmount\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"outputs\":[],\"stateMutability\":\"nonpayable\"},{\"type\":\"event\",\"name\":\"ClaimBorrow\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"ClaimLend\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"DepositBorrow\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"mintAmount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"DepositLend\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"mintAmount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"EmergencyBorrowWithdrawal\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"EmergencyLendWithdrawal\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"Redeem\",\"inputs\":[{\"name\":\"recieptor\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"RefundBorrow\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"refund\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"RefundLend\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"refund\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"SetFee\",\"inputs\":[{\"name\":\"newLendFee\",\"type\":\"uint256\",\"indexed\":true,\"internalType\":\"uint256\"},{\"name\":\"newBorrowFee\",\"type\":\"uint256\",\"indexed\":true,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"SetFeeAddress\",\"inputs\":[{\"name\":\"oldFeeAddress\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"newFeeAddress\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"SetMinAmount\",\"inputs\":[{\"name\":\"oldMinAmount\",\"type\":\"uint256\",\"indexed\":true,\"internalType\":\"uint256\"},{\"name\":\"newMinAmount\",\"type\":\"uint256\",\"indexed\":true,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"SetPoolEndTime\",\"inputs\":[{\"name\":\"pid\",\"type\":\"uint256\",\"indexed\":true,\"internalType\":\"uint256\"},{\"name\":\"oldEndTime\",\"type\":\"uint256\",\"indexed\":true,\"internalType\":\"uint256\"},{\"name\":\"newEndTime\",\"type\":\"uint256\",\"indexed\":true,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"SetPoolSettleTime\",\"inputs\":[{\"name\":\"pid\",\"type\":\"uint256\",\"indexed\":true,\"internalType\":\"uint256\"},{\"name\":\"oldSettleTime\",\"type\":\"uint256\",\"indexed\":true,\"internalType\":\"uint256\"},{\"name\":\"newSettleTime\",\"type\":\"uint256\",\"indexed\":true,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"SetSwapRouterAddress\",\"inputs\":[{\"name\":\"oldSwapAddress\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"newSwapAddress\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"StateChange\",\"inputs\":[{\"name\":\"pid\",\"type\":\"uint256\",\"indexed\":true,\"internalType\":\"uint256\"},{\"name\":\"beforeState\",\"type\":\"uint256\",\"indexed\":true,\"internalType\":\"uint256\"},{\"name\":\"afterState\",\"type\":\"uint256\",\"indexed\":true,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"Swap\",\"inputs\":[{\"name\":\"fromCoin\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"toCoin\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"fromValue\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"toValue\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"WithdrawBorrow\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"burnAmount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false},{\"type\":\"event\",\"name\":\"WithdrawLend\",\"inputs\":[{\"name\":\"from\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"token\",\"type\":\"address\",\"indexed\":true,\"internalType\":\"address\"},{\"name\":\"amount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"},{\"name\":\"burnAmount\",\"type\":\"uint256\",\"indexed\":false,\"internalType\":\"uint256\"}],\"anonymous\":false}]",
 }
 
 // PledgePoolTokenABI is the input ABI used to generate the binding from.
@@ -1123,6 +1123,69 @@ func (_PledgePoolToken *PledgePoolTokenTransactorSession) Finish(_pid *big.Int) 
 	return _PledgePoolToken.Contract.Finish(&_PledgePoolToken.TransactOpts, _pid)
 }
 
+// ForceFinish is a paid mutator transaction binding the contract method 0xb6b21b96.
+//
+// Solidity: function forceFinish(uint256 _pid) returns()
+func (_PledgePoolToken *PledgePoolTokenTransactor) ForceFinish(opts *bind.TransactOpts, _pid *big.Int) (*types.Transaction, error) {
+	return _PledgePoolToken.contract.Transact(opts, "forceFinish", _pid)
+}
+
+// ForceFinish is a paid mutator transaction binding the contract method 0xb6b21b96.
+//
+// Solidity: function forceFinish(uint256 _pid) returns()
+func (_PledgePoolToken *PledgePoolTokenSession) ForceFinish(_pid *big.Int) (*types.Transaction, error) {
+	return _PledgePoolToken.Contract.ForceFinish(&_PledgePoolToken.TransactOpts, _pid)
+}
+
+// ForceFinish is a paid mutator transaction binding the contract method 0xb6b21b96.
+//
+// Solidity: function forceFinish(uint256 _pid) returns()
+func (_PledgePoolToken *PledgePoolTokenTransactorSession) ForceFinish(_pid *big.Int) (*types.Transaction, error) {
+	return _PledgePoolToken.Contract.ForceFinish(&_PledgePoolToken.TransactOpts, _pid)
+}
+
+// ForceLiquidate is a paid mutator transaction binding the contract method 0x6ca14389.
+//
+// Solidity: function forceLiquidate(uint256 _pid) returns()
+func (_PledgePoolToken *PledgePoolTokenTransactor) ForceLiquidate(opts *bind.TransactOpts, _pid *big.Int) (*types.Transaction, error) {
+	return _PledgePoolToken.contract.Transact(opts, "forceLiquidate", _pid)
+}
+
+// ForceLiquidate is a paid mutator transaction binding the contract method 0x6ca14389.
+//
+// Solidity: function forceLiquidate(uint256 _pid) returns()
+func (_PledgePoolToken *PledgePoolTokenSession) ForceLiquidate(_pid *big.Int) (*types.Transaction, error) {
+	return _PledgePoolToken.Contract.ForceLiquidate(&_PledgePoolToken.TransactOpts, _pid)
+}
+
+// ForceLiquidate is a paid mutator transaction binding the contract method 0x6ca14389.
+//
+// Solidity: function forceLiquidate(uint256 _pid) returns()
+func (_PledgePoolToken *PledgePoolTokenTransactorSession) ForceLiquidate(_pid *big.Int) (*types.Transaction, error) {
+	return _PledgePoolToken.Contract.ForceLiquidate(&_PledgePoolToken.TransactOpts, _pid)
+}
+
+// ForceSettle is a paid mutator transaction binding the contract method 0xb17f1983.
+//
+// Solidity: function forceSettle(uint256 _pid) returns()
+func (_PledgePoolToken *PledgePoolTokenTransactor) ForceSettle(opts *bind.TransactOpts, _pid *big.Int) (*types.Transaction, error) {
+	return _PledgePoolToken.contract.Transact(opts, "forceSettle", _pid)
+}
+
+// ForceSettle is a paid mutator transaction binding the contract method 0xb17f1983.
+//
+// Solidity: function forceSettle(uint256 _pid) returns()
+func (_PledgePoolToken *PledgePoolTokenSession) ForceSettle(_pid *big.Int) (*types.Transaction, error) {
+	return _PledgePoolToken.Contract.ForceSettle(&_PledgePoolToken.TransactOpts, _pid)
+}
+
+// ForceSettle is a paid mutator transaction binding the contract method 0xb17f1983.
+//
+// Solidity: function forceSettle(uint256 _pid) returns()
+func (_PledgePoolToken *PledgePoolTokenTransactorSession) ForceSettle(_pid *big.Int) (*types.Transaction, error) {
+	return _PledgePoolToken.Contract.ForceSettle(&_PledgePoolToken.TransactOpts, _pid)
+}
+
 // Liquidate is a paid mutator transaction binding the contract method 0x415f1240.
 //
 // Solidity: function liquidate(uint256 _pid) returns()
@@ -1268,6 +1331,69 @@ func (_PledgePoolToken *PledgePoolTokenSession) SetPause() (*types.Transaction, 
 // Solidity: function setPause() returns()
 func (_PledgePoolToken *PledgePoolTokenTransactorSession) SetPause() (*types.Transaction, error) {
 	return _PledgePoolToken.Contract.SetPause(&_PledgePoolToken.TransactOpts)
+}
+
+// SetPoolEndTime is a paid mutator transaction binding the contract method 0x5ca73f2b.
+//
+// Solidity: function setPoolEndTime(uint256 _pid, uint256 _endTime) returns()
+func (_PledgePoolToken *PledgePoolTokenTransactor) SetPoolEndTime(opts *bind.TransactOpts, _pid *big.Int, _endTime *big.Int) (*types.Transaction, error) {
+	return _PledgePoolToken.contract.Transact(opts, "setPoolEndTime", _pid, _endTime)
+}
+
+// SetPoolEndTime is a paid mutator transaction binding the contract method 0x5ca73f2b.
+//
+// Solidity: function setPoolEndTime(uint256 _pid, uint256 _endTime) returns()
+func (_PledgePoolToken *PledgePoolTokenSession) SetPoolEndTime(_pid *big.Int, _endTime *big.Int) (*types.Transaction, error) {
+	return _PledgePoolToken.Contract.SetPoolEndTime(&_PledgePoolToken.TransactOpts, _pid, _endTime)
+}
+
+// SetPoolEndTime is a paid mutator transaction binding the contract method 0x5ca73f2b.
+//
+// Solidity: function setPoolEndTime(uint256 _pid, uint256 _endTime) returns()
+func (_PledgePoolToken *PledgePoolTokenTransactorSession) SetPoolEndTime(_pid *big.Int, _endTime *big.Int) (*types.Transaction, error) {
+	return _PledgePoolToken.Contract.SetPoolEndTime(&_PledgePoolToken.TransactOpts, _pid, _endTime)
+}
+
+// SetPoolSettleTime is a paid mutator transaction binding the contract method 0x3b92f03d.
+//
+// Solidity: function setPoolSettleTime(uint256 _pid, uint256 _settleTime) returns()
+func (_PledgePoolToken *PledgePoolTokenTransactor) SetPoolSettleTime(opts *bind.TransactOpts, _pid *big.Int, _settleTime *big.Int) (*types.Transaction, error) {
+	return _PledgePoolToken.contract.Transact(opts, "setPoolSettleTime", _pid, _settleTime)
+}
+
+// SetPoolSettleTime is a paid mutator transaction binding the contract method 0x3b92f03d.
+//
+// Solidity: function setPoolSettleTime(uint256 _pid, uint256 _settleTime) returns()
+func (_PledgePoolToken *PledgePoolTokenSession) SetPoolSettleTime(_pid *big.Int, _settleTime *big.Int) (*types.Transaction, error) {
+	return _PledgePoolToken.Contract.SetPoolSettleTime(&_PledgePoolToken.TransactOpts, _pid, _settleTime)
+}
+
+// SetPoolSettleTime is a paid mutator transaction binding the contract method 0x3b92f03d.
+//
+// Solidity: function setPoolSettleTime(uint256 _pid, uint256 _settleTime) returns()
+func (_PledgePoolToken *PledgePoolTokenTransactorSession) SetPoolSettleTime(_pid *big.Int, _settleTime *big.Int) (*types.Transaction, error) {
+	return _PledgePoolToken.Contract.SetPoolSettleTime(&_PledgePoolToken.TransactOpts, _pid, _settleTime)
+}
+
+// SetPoolState is a paid mutator transaction binding the contract method 0x03593097.
+//
+// Solidity: function setPoolState(uint256 _pid, uint256 _state) returns()
+func (_PledgePoolToken *PledgePoolTokenTransactor) SetPoolState(opts *bind.TransactOpts, _pid *big.Int, _state *big.Int) (*types.Transaction, error) {
+	return _PledgePoolToken.contract.Transact(opts, "setPoolState", _pid, _state)
+}
+
+// SetPoolState is a paid mutator transaction binding the contract method 0x03593097.
+//
+// Solidity: function setPoolState(uint256 _pid, uint256 _state) returns()
+func (_PledgePoolToken *PledgePoolTokenSession) SetPoolState(_pid *big.Int, _state *big.Int) (*types.Transaction, error) {
+	return _PledgePoolToken.Contract.SetPoolState(&_PledgePoolToken.TransactOpts, _pid, _state)
+}
+
+// SetPoolState is a paid mutator transaction binding the contract method 0x03593097.
+//
+// Solidity: function setPoolState(uint256 _pid, uint256 _state) returns()
+func (_PledgePoolToken *PledgePoolTokenTransactorSession) SetPoolState(_pid *big.Int, _state *big.Int) (*types.Transaction, error) {
+	return _PledgePoolToken.Contract.SetPoolState(&_PledgePoolToken.TransactOpts, _pid, _state)
 }
 
 // SetSwapRouterAddress is a paid mutator transaction binding the contract method 0x5249961b.
@@ -3243,6 +3369,338 @@ func (_PledgePoolToken *PledgePoolTokenFilterer) WatchSetMinAmount(opts *bind.Wa
 func (_PledgePoolToken *PledgePoolTokenFilterer) ParseSetMinAmount(log types.Log) (*PledgePoolTokenSetMinAmount, error) {
 	event := new(PledgePoolTokenSetMinAmount)
 	if err := _PledgePoolToken.contract.UnpackLog(event, "SetMinAmount", log); err != nil {
+		return nil, err
+	}
+	event.Raw = log
+	return event, nil
+}
+
+// PledgePoolTokenSetPoolEndTimeIterator is returned from FilterSetPoolEndTime and is used to iterate over the raw logs and unpacked data for SetPoolEndTime events raised by the PledgePoolToken contract.
+type PledgePoolTokenSetPoolEndTimeIterator struct {
+	Event *PledgePoolTokenSetPoolEndTime // Event containing the contract specifics and raw log
+
+	contract *bind.BoundContract // Generic contract to use for unpacking event data
+	event    string              // Event name to use for unpacking event data
+
+	logs chan types.Log        // Log channel receiving the found contract events
+	sub  ethereum.Subscription // Subscription for errors, completion and termination
+	done bool                  // Whether the subscription completed delivering logs
+	fail error                 // Occurred error to stop iteration
+}
+
+// Next advances the iterator to the subsequent event, returning whether there
+// are any more events found. In case of a retrieval or parsing error, false is
+// returned and Error() can be queried for the exact failure.
+func (it *PledgePoolTokenSetPoolEndTimeIterator) Next() bool {
+	// If the iterator failed, stop iterating
+	if it.fail != nil {
+		return false
+	}
+	// If the iterator completed, deliver directly whatever's available
+	if it.done {
+		select {
+		case log := <-it.logs:
+			it.Event = new(PledgePoolTokenSetPoolEndTime)
+			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+				it.fail = err
+				return false
+			}
+			it.Event.Raw = log
+			return true
+
+		default:
+			return false
+		}
+	}
+	// Iterator still in progress, wait for either a data or an error event
+	select {
+	case log := <-it.logs:
+		it.Event = new(PledgePoolTokenSetPoolEndTime)
+		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+			it.fail = err
+			return false
+		}
+		it.Event.Raw = log
+		return true
+
+	case err := <-it.sub.Err():
+		it.done = true
+		it.fail = err
+		return it.Next()
+	}
+}
+
+// Error returns any retrieval or parsing error occurred during filtering.
+func (it *PledgePoolTokenSetPoolEndTimeIterator) Error() error {
+	return it.fail
+}
+
+// Close terminates the iteration process, releasing any pending underlying
+// resources.
+func (it *PledgePoolTokenSetPoolEndTimeIterator) Close() error {
+	it.sub.Unsubscribe()
+	return nil
+}
+
+// PledgePoolTokenSetPoolEndTime represents a SetPoolEndTime event raised by the PledgePoolToken contract.
+type PledgePoolTokenSetPoolEndTime struct {
+	Pid        *big.Int
+	OldEndTime *big.Int
+	NewEndTime *big.Int
+	Raw        types.Log // Blockchain specific contextual infos
+}
+
+// FilterSetPoolEndTime is a free log retrieval operation binding the contract event 0x1a7046929d9ea6cfceeb4b466db53e9cbded3c2e19e744cf5ec00c2de822f916.
+//
+// Solidity: event SetPoolEndTime(uint256 indexed pid, uint256 indexed oldEndTime, uint256 indexed newEndTime)
+func (_PledgePoolToken *PledgePoolTokenFilterer) FilterSetPoolEndTime(opts *bind.FilterOpts, pid []*big.Int, oldEndTime []*big.Int, newEndTime []*big.Int) (*PledgePoolTokenSetPoolEndTimeIterator, error) {
+
+	var pidRule []interface{}
+	for _, pidItem := range pid {
+		pidRule = append(pidRule, pidItem)
+	}
+	var oldEndTimeRule []interface{}
+	for _, oldEndTimeItem := range oldEndTime {
+		oldEndTimeRule = append(oldEndTimeRule, oldEndTimeItem)
+	}
+	var newEndTimeRule []interface{}
+	for _, newEndTimeItem := range newEndTime {
+		newEndTimeRule = append(newEndTimeRule, newEndTimeItem)
+	}
+
+	logs, sub, err := _PledgePoolToken.contract.FilterLogs(opts, "SetPoolEndTime", pidRule, oldEndTimeRule, newEndTimeRule)
+	if err != nil {
+		return nil, err
+	}
+	return &PledgePoolTokenSetPoolEndTimeIterator{contract: _PledgePoolToken.contract, event: "SetPoolEndTime", logs: logs, sub: sub}, nil
+}
+
+// WatchSetPoolEndTime is a free log subscription operation binding the contract event 0x1a7046929d9ea6cfceeb4b466db53e9cbded3c2e19e744cf5ec00c2de822f916.
+//
+// Solidity: event SetPoolEndTime(uint256 indexed pid, uint256 indexed oldEndTime, uint256 indexed newEndTime)
+func (_PledgePoolToken *PledgePoolTokenFilterer) WatchSetPoolEndTime(opts *bind.WatchOpts, sink chan<- *PledgePoolTokenSetPoolEndTime, pid []*big.Int, oldEndTime []*big.Int, newEndTime []*big.Int) (event.Subscription, error) {
+
+	var pidRule []interface{}
+	for _, pidItem := range pid {
+		pidRule = append(pidRule, pidItem)
+	}
+	var oldEndTimeRule []interface{}
+	for _, oldEndTimeItem := range oldEndTime {
+		oldEndTimeRule = append(oldEndTimeRule, oldEndTimeItem)
+	}
+	var newEndTimeRule []interface{}
+	for _, newEndTimeItem := range newEndTime {
+		newEndTimeRule = append(newEndTimeRule, newEndTimeItem)
+	}
+
+	logs, sub, err := _PledgePoolToken.contract.WatchLogs(opts, "SetPoolEndTime", pidRule, oldEndTimeRule, newEndTimeRule)
+	if err != nil {
+		return nil, err
+	}
+	return event.NewSubscription(func(quit <-chan struct{}) error {
+		defer sub.Unsubscribe()
+		for {
+			select {
+			case log := <-logs:
+				// New log arrived, parse the event and forward to the user
+				event := new(PledgePoolTokenSetPoolEndTime)
+				if err := _PledgePoolToken.contract.UnpackLog(event, "SetPoolEndTime", log); err != nil {
+					// If the signature doesn't match, skip this log.
+					if errors.Is(err, bind.ErrEventSignatureMismatch) {
+						continue
+					}
+					return err
+				}
+				event.Raw = log
+
+				select {
+				case sink <- event:
+				case err := <-sub.Err():
+					return err
+				case <-quit:
+					return nil
+				}
+			case err := <-sub.Err():
+				return err
+			case <-quit:
+				return nil
+			}
+		}
+	}), nil
+}
+
+// ParseSetPoolEndTime is a log parse operation binding the contract event 0x1a7046929d9ea6cfceeb4b466db53e9cbded3c2e19e744cf5ec00c2de822f916.
+//
+// Solidity: event SetPoolEndTime(uint256 indexed pid, uint256 indexed oldEndTime, uint256 indexed newEndTime)
+func (_PledgePoolToken *PledgePoolTokenFilterer) ParseSetPoolEndTime(log types.Log) (*PledgePoolTokenSetPoolEndTime, error) {
+	event := new(PledgePoolTokenSetPoolEndTime)
+	if err := _PledgePoolToken.contract.UnpackLog(event, "SetPoolEndTime", log); err != nil {
+		return nil, err
+	}
+	event.Raw = log
+	return event, nil
+}
+
+// PledgePoolTokenSetPoolSettleTimeIterator is returned from FilterSetPoolSettleTime and is used to iterate over the raw logs and unpacked data for SetPoolSettleTime events raised by the PledgePoolToken contract.
+type PledgePoolTokenSetPoolSettleTimeIterator struct {
+	Event *PledgePoolTokenSetPoolSettleTime // Event containing the contract specifics and raw log
+
+	contract *bind.BoundContract // Generic contract to use for unpacking event data
+	event    string              // Event name to use for unpacking event data
+
+	logs chan types.Log        // Log channel receiving the found contract events
+	sub  ethereum.Subscription // Subscription for errors, completion and termination
+	done bool                  // Whether the subscription completed delivering logs
+	fail error                 // Occurred error to stop iteration
+}
+
+// Next advances the iterator to the subsequent event, returning whether there
+// are any more events found. In case of a retrieval or parsing error, false is
+// returned and Error() can be queried for the exact failure.
+func (it *PledgePoolTokenSetPoolSettleTimeIterator) Next() bool {
+	// If the iterator failed, stop iterating
+	if it.fail != nil {
+		return false
+	}
+	// If the iterator completed, deliver directly whatever's available
+	if it.done {
+		select {
+		case log := <-it.logs:
+			it.Event = new(PledgePoolTokenSetPoolSettleTime)
+			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+				it.fail = err
+				return false
+			}
+			it.Event.Raw = log
+			return true
+
+		default:
+			return false
+		}
+	}
+	// Iterator still in progress, wait for either a data or an error event
+	select {
+	case log := <-it.logs:
+		it.Event = new(PledgePoolTokenSetPoolSettleTime)
+		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+			it.fail = err
+			return false
+		}
+		it.Event.Raw = log
+		return true
+
+	case err := <-it.sub.Err():
+		it.done = true
+		it.fail = err
+		return it.Next()
+	}
+}
+
+// Error returns any retrieval or parsing error occurred during filtering.
+func (it *PledgePoolTokenSetPoolSettleTimeIterator) Error() error {
+	return it.fail
+}
+
+// Close terminates the iteration process, releasing any pending underlying
+// resources.
+func (it *PledgePoolTokenSetPoolSettleTimeIterator) Close() error {
+	it.sub.Unsubscribe()
+	return nil
+}
+
+// PledgePoolTokenSetPoolSettleTime represents a SetPoolSettleTime event raised by the PledgePoolToken contract.
+type PledgePoolTokenSetPoolSettleTime struct {
+	Pid           *big.Int
+	OldSettleTime *big.Int
+	NewSettleTime *big.Int
+	Raw           types.Log // Blockchain specific contextual infos
+}
+
+// FilterSetPoolSettleTime is a free log retrieval operation binding the contract event 0x3c22856cef409193341068a043609dc302e649c75ecfb01a5cf17222c8c03808.
+//
+// Solidity: event SetPoolSettleTime(uint256 indexed pid, uint256 indexed oldSettleTime, uint256 indexed newSettleTime)
+func (_PledgePoolToken *PledgePoolTokenFilterer) FilterSetPoolSettleTime(opts *bind.FilterOpts, pid []*big.Int, oldSettleTime []*big.Int, newSettleTime []*big.Int) (*PledgePoolTokenSetPoolSettleTimeIterator, error) {
+
+	var pidRule []interface{}
+	for _, pidItem := range pid {
+		pidRule = append(pidRule, pidItem)
+	}
+	var oldSettleTimeRule []interface{}
+	for _, oldSettleTimeItem := range oldSettleTime {
+		oldSettleTimeRule = append(oldSettleTimeRule, oldSettleTimeItem)
+	}
+	var newSettleTimeRule []interface{}
+	for _, newSettleTimeItem := range newSettleTime {
+		newSettleTimeRule = append(newSettleTimeRule, newSettleTimeItem)
+	}
+
+	logs, sub, err := _PledgePoolToken.contract.FilterLogs(opts, "SetPoolSettleTime", pidRule, oldSettleTimeRule, newSettleTimeRule)
+	if err != nil {
+		return nil, err
+	}
+	return &PledgePoolTokenSetPoolSettleTimeIterator{contract: _PledgePoolToken.contract, event: "SetPoolSettleTime", logs: logs, sub: sub}, nil
+}
+
+// WatchSetPoolSettleTime is a free log subscription operation binding the contract event 0x3c22856cef409193341068a043609dc302e649c75ecfb01a5cf17222c8c03808.
+//
+// Solidity: event SetPoolSettleTime(uint256 indexed pid, uint256 indexed oldSettleTime, uint256 indexed newSettleTime)
+func (_PledgePoolToken *PledgePoolTokenFilterer) WatchSetPoolSettleTime(opts *bind.WatchOpts, sink chan<- *PledgePoolTokenSetPoolSettleTime, pid []*big.Int, oldSettleTime []*big.Int, newSettleTime []*big.Int) (event.Subscription, error) {
+
+	var pidRule []interface{}
+	for _, pidItem := range pid {
+		pidRule = append(pidRule, pidItem)
+	}
+	var oldSettleTimeRule []interface{}
+	for _, oldSettleTimeItem := range oldSettleTime {
+		oldSettleTimeRule = append(oldSettleTimeRule, oldSettleTimeItem)
+	}
+	var newSettleTimeRule []interface{}
+	for _, newSettleTimeItem := range newSettleTime {
+		newSettleTimeRule = append(newSettleTimeRule, newSettleTimeItem)
+	}
+
+	logs, sub, err := _PledgePoolToken.contract.WatchLogs(opts, "SetPoolSettleTime", pidRule, oldSettleTimeRule, newSettleTimeRule)
+	if err != nil {
+		return nil, err
+	}
+	return event.NewSubscription(func(quit <-chan struct{}) error {
+		defer sub.Unsubscribe()
+		for {
+			select {
+			case log := <-logs:
+				// New log arrived, parse the event and forward to the user
+				event := new(PledgePoolTokenSetPoolSettleTime)
+				if err := _PledgePoolToken.contract.UnpackLog(event, "SetPoolSettleTime", log); err != nil {
+					// If the signature doesn't match, skip this log.
+					if errors.Is(err, bind.ErrEventSignatureMismatch) {
+						continue
+					}
+					return err
+				}
+				event.Raw = log
+
+				select {
+				case sink <- event:
+				case err := <-sub.Err():
+					return err
+				case <-quit:
+					return nil
+				}
+			case err := <-sub.Err():
+				return err
+			case <-quit:
+				return nil
+			}
+		}
+	}), nil
+}
+
+// ParseSetPoolSettleTime is a log parse operation binding the contract event 0x3c22856cef409193341068a043609dc302e649c75ecfb01a5cf17222c8c03808.
+//
+// Solidity: event SetPoolSettleTime(uint256 indexed pid, uint256 indexed oldSettleTime, uint256 indexed newSettleTime)
+func (_PledgePoolToken *PledgePoolTokenFilterer) ParseSetPoolSettleTime(log types.Log) (*PledgePoolTokenSetPoolSettleTime, error) {
+	event := new(PledgePoolTokenSetPoolSettleTime)
+	if err := _PledgePoolToken.contract.UnpackLog(event, "SetPoolSettleTime", log); err != nil {
 		return nil, err
 	}
 	event.Raw = log

@@ -269,6 +269,45 @@
   },
   {
     "type": "function",
+    "name": "forceFinish",
+    "inputs": [
+      {
+        "name": "_pid",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "forceLiquidate",
+    "inputs": [
+      {
+        "name": "_pid",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "forceSettle",
+    "inputs": [
+      {
+        "name": "_pid",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "getMultiSignatureAddress",
     "inputs": [],
     "outputs": [
@@ -625,6 +664,60 @@
     "type": "function",
     "name": "setPause",
     "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setPoolEndTime",
+    "inputs": [
+      {
+        "name": "_pid",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "_endTime",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setPoolSettleTime",
+    "inputs": [
+      {
+        "name": "_pid",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "_settleTime",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setPoolState",
+    "inputs": [
+      {
+        "name": "_pid",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "_state",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
     "outputs": [],
     "stateMutability": "nonpayable"
   },
@@ -1068,6 +1161,56 @@
       },
       {
         "name": "newMinAmount",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "SetPoolEndTime",
+    "inputs": [
+      {
+        "name": "pid",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "oldEndTime",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "newEndTime",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "SetPoolSettleTime",
+    "inputs": [
+      {
+        "name": "pid",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "oldSettleTime",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "newSettleTime",
         "type": "uint256",
         "indexed": true,
         "internalType": "uint256"

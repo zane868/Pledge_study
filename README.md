@@ -34,3 +34,5 @@ npm run build     # 资源前缀固定为 /app/
 `shared/src/numbers.ts` 复刻了合约的取整顺序，是「预计可领 / 预计退款 / 预计赎回」
 的唯一实现来源。它的测试 `shared/src/numbers.test.ts` 与合约侧基准测试
 `pledgev2/test/PledgeRounding.t.sol` 使用同一组向量，两侧必须同步修改。
+
+当前已知问题与待办清单见 [docs/known-issues.md](docs/known-issues.md)。
